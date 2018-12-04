@@ -31,7 +31,7 @@ const Router = [
                         meta: {
                             title: ''
                         },
-                        component: (resolve) => require(['./views/user.vue'], resolve),
+                        component: (resolve) => require(['./views/posts.vue'], resolve),
                     },
                     {
                         path: 'messages',
