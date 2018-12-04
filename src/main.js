@@ -23,9 +23,15 @@ router.beforeEach((to, from, next) =>  {
     next();
 })
 
+// check if logged in
 
 new Vue({
     el: '#app',
     router: router,
-    render: h => h(App)
+    render: h => h(App),
+    data () {
+        return {
+            auth: false
+        }
+    }
 })

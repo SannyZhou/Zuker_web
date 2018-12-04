@@ -23,8 +23,8 @@
                     </router-link>
                 </el-col>
                 <el-col offset="9" span="3">
-                    <el-menu style="text-align: right" mode="horizontal" router=true :default-active="$route.path.split('/')[1]" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-                        <el-menu-item index="my">
+                    <el-menu @click.native="onc" style="text-align: right" mode="horizontal" router=true :default-active="'/' + $route.path.split('/')[1]" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+                        <el-menu-item index="/my">
                             <i class="el-icon-star-on"></i>
                             个人中心
                         </el-menu-item>
@@ -39,7 +39,9 @@
 <script>
 export default {
     methods: {
-
+        onc() {
+            console.log(this.$route.path)
+        }
     }
 }
 </script>
