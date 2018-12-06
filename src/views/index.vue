@@ -23,6 +23,9 @@ export default {
                 console.log(err.response)
             })
         }
+    },
+    data:{
+        id: true
     }
 }
 </script>

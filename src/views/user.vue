@@ -1,6 +1,6 @@
 <style>
     .sidebar {
-        min-height: 400px;
+        height: 100%;
     }
 </style>
 
@@ -14,6 +14,9 @@
             <el-menu-item index="/my/messages">
                 私信
             </el-menu-item>
+            <el-menu-item index="/my/setting">
+                个人信息
+            </el-menu-item>
         </el-menu>
     </el-aside>
     <router-view></router-view>
@@ -22,6 +25,9 @@
 
 <script>
 export default {
+    data () {
+            return this.$store.getters.profile
+    },
     methods: {
 
     }

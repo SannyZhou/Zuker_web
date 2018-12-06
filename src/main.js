@@ -5,9 +5,11 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import Routers from './router'
 import axios from 'axios'
+import store from './store'
 
 Vue.use(VueRouter)
 Vue.use(ElementUI)
+Vue.config.devtools = true;
 
 Vue.prototype.$axios = axios
 
@@ -23,15 +25,9 @@ router.beforeEach((to, from, next) =>  {
     next();
 })
 
-// check if logged in
 
 new Vue({
     el: '#app',
     router: router,
-    render: h => h(App),
-    data () {
-        return {
-            auth: false
-        }
-    }
+    render: h => h(App)
 })

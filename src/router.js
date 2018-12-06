@@ -7,6 +7,13 @@ const Router = [
         component: (resolve) => require(['./views/login.vue'], resolve)
     },
     {
+        path: '/register',
+        meta: {
+            title: 'Register'
+        },
+        component: (resolve) => require(['./views/register.vue'], resolve)
+    },
+    {
         path: '/',
         redirect: 'index',
         meta: {
@@ -39,9 +46,16 @@ const Router = [
                             title: ''
                         },
                         component: (resolve) => require(['./views/messages.vue'], resolve)
+                    },
+                    {
+                        path: 'setting',
+                        meta: {
+                            title: ''
+                        },
+                        component: (resolve) => require(['./views/setting.vue'], resolve),
                     }
                 ]
-            }
+            },
         ]
     }
 ]
