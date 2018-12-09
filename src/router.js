@@ -53,6 +53,13 @@ const Router = [
                             title: ''
                         },
                         component: (resolve) => require(['./views/setting.vue'], resolve),
+                    },
+                    {
+                        path: 'collections',
+                        meta: {
+                            title: ''
+                        },
+                        component: (resolve) => require(['./views/collections.vue'], resolve)
                     }
                 ]
             },
