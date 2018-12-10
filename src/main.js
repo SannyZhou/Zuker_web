@@ -11,7 +11,6 @@ Vue.use(VueRouter)
 Vue.use(ElementUI)
 Vue.config.devtools = true;
 
-Vue.prototype.$axios = axios
 
 const RouterConfig = {
     mode: 'history',
@@ -19,15 +18,50 @@ const RouterConfig = {
 }
 const router = new VueRouter(RouterConfig)
 
+
+Vue.prototype.$axios = axios
+
+axios.defaults.withCredentials = true
+axios.interceptors.response.use(
+    response => {
+        return response;
+    },
+    err => {
+        if (err.response && err.response.status == 401) {
+            store.commit('LOG_OUT');
+            router.replace({
+                path: '/login',
+                query: {redirect: router.currentRoute.fullPath}
+            })
+        }
+        return Promise.reject(err)
+    }
+)
+
 router.beforeEach((to, from, next) =>  {
-    var title = to.meta.title ? to.meta.title + ' - Zuker' : 'Zuker';
-    window.document.title = title;
-    next();
+    if(to.meta.requireAuth) {
+        if (store.state.isLogin) {
+            var title = to.meta.title ? to.meta.title + ' - Zuker' : 'Zuker';
+            window.document.title = title;
+            next();
+        } else {
+            next({
+                path: '/login',
+                query: {redirect: to.fullPath}
+            })
+        }
+    } else {
+        var title = to.meta.title ? to.meta.title + ' - Zuker' : 'Zuker';
+        window.document.title = title;
+        next();
+    }
 })
 
+store.commit('LOGIN_CHECK')
 
 new Vue({
     el: '#app',
+    store,
     router: router,
     render: h => h(App)
 })

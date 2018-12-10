@@ -29,7 +29,7 @@
                     </router-link>
                 </el-col>
                 <el-col offset="9" span="3">
-                    <el-menu style="text-align: right" mode="horizontal" router=true :default-active="$route.path.split('/')[1]" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"  v-if="id">
+                    <el-menu style="text-align: right" mode="horizontal" router=true :default-active="$route.path.split('/')[1]" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"  v-if="isLogin">
                         <el-menu-item index="my">
                             <i class="el-icon-star-on"></i>
                             个人中心
@@ -65,8 +65,10 @@
 
 <script>
 export default {
-    data:{
-        id:1
+    data() {
+        return {
+            isLogin: this.$store.state.isLogin
+        }
     },
     methods: {
 

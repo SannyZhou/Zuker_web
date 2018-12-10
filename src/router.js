@@ -24,7 +24,7 @@ const Router = [
             {
                 path: 'index',
                 meta: {
-                    title: 'index'
+                    title: 'index',
                 },
                 component: (resolve) => require(['./views/index.vue'], resolve)
             },
@@ -36,21 +36,24 @@ const Router = [
                     {
                         path: 'posts',
                         meta: {
-                            title: ''
+                            title: '',
+                            requireAuth: true
                         },
                         component: (resolve) => require(['./views/posts.vue'], resolve),
                     },
                     {
                         path: 'messages',
                         meta: {
-                            title: ''
+                            title: '',
+                            //requireAuth: true
                         },
                         component: (resolve) => require(['./views/messages.vue'], resolve)
                     },
                     {
                         path: 'setting',
                         meta: {
-                            title: ''
+                            title: '',
+                            requireAuth: true
                         },
                         component: (resolve) => require(['./views/setting.vue'], resolve),
                     },
