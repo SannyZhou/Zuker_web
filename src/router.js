@@ -14,6 +14,13 @@ const Router = [
         component: (resolve) => require(['./views/register.vue'], resolve)
     },
     {
+        path: '/form',
+        meta: {
+            title: 'NewHouse'
+        },
+        component: (resolve) => require(['./views/form.vue'], resolve)
+    },
+    {
         path: '/',
         redirect: 'index',
         meta: {

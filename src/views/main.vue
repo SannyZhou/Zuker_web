@@ -13,7 +13,7 @@
         margin: 5px;
         font-size: 15px;
         color: white;
-        text-algin: right;
+        text-align: right;
     }
 </style>
 
