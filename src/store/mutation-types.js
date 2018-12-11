@@ -64,3 +64,6 @@ export const ADD_CARD = 'ADD_CARD'
 export const INIT_CARD_INDEX = 'INIT_CARD_INDEX'
 export const DELETE_CARD = 'DELETE_CARD'
 
+// added
+export const LOG_OUT = 'LOG_OUT'
+export const CHECK_LOGIN = 'CHECK_LOGIN'
