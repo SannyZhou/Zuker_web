@@ -22,17 +22,20 @@
     <el-container style="height: 100%;">
         <el-header type="flex" justify="space-around" style="background-color: #545c64">
             <el-row>
-                <el-col span="12">
+                <el-col span="3">
                     <router-link to="/">
                     <img class="logo-img" src='../assets/logo.png'>
                     <span class="logo-text">Zuker</span>
                     </router-link>
                 </el-col>
-                <el-col offset="9" span="3">
-                    <el-menu style="text-align: right" mode="horizontal" router=true :default-active="$route.path.split('/')[1]" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"  v-if="isLogin">
+                <el-col offset="15" span="5" type='flex'>
+                    <el-menu style="text-align: right" mode="horizontal" router=true :default-active="$route.path.split('/')[1]" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" v-if="isLogin">
                         <el-menu-item index="my">
                             <i class="el-icon-star-on"></i>
                             个人中心
+                        </el-menu-item>
+                        <el-menu-item @click="tologout">
+                            退出登录
                         </el-menu-item>
                     </el-menu>
                     <el-menu style="text-align: right" mode="horizontal" router=false background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"  v-else>
@@ -40,6 +43,7 @@
                             登录
                         </el-menu-item>
                     </el-menu>
+                    
                 </el-col>
             </el-row>
         </el-header>
@@ -67,11 +71,28 @@
 export default {
     data() {
         return {
-            isLogin: this.$store.state.isLogin
+            isLogin: this.$store.state.isLogin,
         }
     },
+    created:function(){
+        this.$store.commit(types.LOG_CHECK);
+        this.isLogin = this.$store.state.isLogin;
+    },
     methods: {
-
+        tologout(){
+            this.$store.dispatch('logout');
+            this.isLogin = false;
+            setTimeout(() => {
+				let type = this.$store.state.msgtype;
+				let msg = this.$store.state.msgcontent;
+				if (msg !== ""){
+					var param = {'type': type, 'message': msg};
+					console.log('message param:', param);
+					this.$message(param);
+				}
+			    this.$router.replace('/'); 
+			}, 500)
+        },
     }
 }
 </script>

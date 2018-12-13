@@ -19,11 +19,14 @@
 			<h2 v-if="show" style="text-align: center; padding: 15px; color: #8f8f8f; font-weight: bold; background: #f2f2f2; font-size: 25px">
 			输入账号密码登录</h2>
 			<div class="accountLogin">
-				<div class="account"><h2>账号：</h2><input type="text" v-model="account" placeholder="输入账号..." style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;"></input></div>
-				<div class="password"><h2>密码：</h2><input type="password" v-model="password" placeholder="输入密码..."style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;"></input></div>
-				<button :class="{'active': account.length !== 0}" @click="login">登录</button>
+				<div class="account"><h2>账号：</h2><input type="text" v-model="loginForm.username" placeholder="输入账号..." style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;"></div>
+				<div class="password"><h2>密码：</h2><input type="password" v-model="loginForm.password" placeholder="输入密码..." style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;"></div>
+				<button :class="{'active': loginForm.username.length !== 0}" @click="login">登录</button>
+				<div class='tologin'>
+			<router-link to='/register'>创建新账号</router-link> | <router-link to='/forgetpwd'>忘记密码？</router-link>
+				</div>
 			</div>
-			<div class="cancel"><img src='../common/assets/cross_icon.png' class="icon-cross" @click="cancel"></i></div>
+			<div class="cancel"><img src='../common/assets/cross_icon.png' class="icon-cross" @click="cancel"></div>
 		</div>
 		<div v-if="show2" class="message" style="text-align: center; font-size: 20px; color: #ED4956">
 			需要申请第三方API，暂时无法完成
@@ -31,14 +34,19 @@
 	</div>
 </template>
 
+
+
 <script>
+import showmsg from './showmsg'
+
 export default {
 	data () {
 		return {
 			show: false,
 			show2: false,
-			account: '',
-			password: ''
+			loginForm:{username: '', password: ''},
+			user_id: 0,
+			isLogin:false
 		}
 	},
 	components: {
@@ -46,8 +54,19 @@ export default {
 	},
 	created () {
 		this.$store.dispatch('initProfile')
+		if (this.$store.state.isLogin){
+			if (this.$route.query.redirect === undefined || this.$route.query.redirect === ''){
+				this.$router.replace('/my')
+			}else{
+				this.$router.replace(this.$route.query.redirect)
+			}
+		}
 	},
 	methods: {
+		close () {
+			this.loginForm.username = '';
+			this.loginForm.password = '';
+		},
 		cancel () {
 			this.show = false
 		},
@@ -59,51 +78,43 @@ export default {
 			}, 1000)
 		},
 		login () {
-			if (this.account == '' || this.password == ''){
+			if (this.loginForm.username === '' || this.loginForm.password === ''){
 				this.$message({
 		          message: '账号不能为空！',
 		          type: 'warning'
 		        });
 		        return;
 			}
-			this.$store.dispatch('login',{
-				loginuser: this.account,
-				password: this.password
-			})
-            /*this.$axios.post('/auth/login', {
-            	account: this.account, 
-            	password: this.password
-            }).then(function(res){
-            	if (res.data.id == '0'){
-            		this.$message.error('账号或密码错误！');
-            	}
-            	else{
-	            	this.$notify({
-	            		title: '欢迎使用Zuker!',
-	            		type: 'success',
-	            		message: 'Hi, ' + this.account + '!',
-	            		duration: 5000
-	            	});
-	            }
-        	}).bind(this)
-            .catch(function(err) {
-                console.log(err.response)
-            })*/
-			this.account = ''
-			this.password = ''
+			this.$store.dispatch('login', this.loginForm);
+			setTimeout(() => {
+				console.log(this.$store.state.msgtype,  this.$store.state.msgcontent);
+				let type = this.$store.state.msgtype;
+				let msg = this.$store.state.msgcontent;
+				if (msg !== ""){
+					var param = {'type': type, 'message': msg};
+					console.log('message param:', param);
+					this.$message(param);
+				}
+				if (this.$store.state.isLogin){
+					if (this.$route.query.redirect === undefined || this.$route.query.redirect === ''){
+						this.$router.replace('/my');
+					}else{
+						this.$router.replace(this.$route.query.redirect);
+					}
+				}
+			}, 500)
 		},
 		accountLogin () {
 			this.show = true
 		}
 	},
 	activated () {
+		
 		this.show2 = false
 		this.show = false
-		this.$store.commit('UPDATE_LOGIN_LOADING', false)
 	},
 	computed: {
 		data () {
-			return this.$store.getters.profileLists
 		}
 	}
 }
@@ -187,7 +198,7 @@ export default {
 			vertical-align middle
 			.account, .password
 				display flex
-				width 55%
+				width 45%
 				padding 10px 0
 				h2
 					flex 0 0 60px
@@ -209,9 +220,18 @@ export default {
 				padding 4px
 				font-size 20px
 				border-radius 10px
-				width 30%
+				width 25%
 				height 40px
 				background #26A2FF
+		.tologin
+			margin-top 25px
+			outline none
+			padding 4px
+			font-size 15px
+			border-radius 10px
+			width 50%
+			height 40px
+			text-align center
 		.cancel
 			position absolute
 			bottom 60px

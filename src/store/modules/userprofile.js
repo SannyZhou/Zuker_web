@@ -6,61 +6,80 @@ const state = {
 	profile: {
 		type: Object
 	},
-	profileLoading: false,
-	profileLists: []
 }
 
 const getters = {
 	profile: state => state.profile,
-	profileLoading: state => state.profileLoading,
-	profileLists: state => state.profileLists
 }
 
 const actions = {
-	initProfile({commit}) {
-		commit(types.UPDATE_PROFILE_LOADING, true)
-		profApi.getProfile(data => {
+	initProfile({commit, dispatch}, payload) {
+		profApi.getProfile(payload, data => {
 			commit(types.INIT_PROFILE, {data})
-			commit(types.UPDATE_PROFILE_LOADING, false)
 			if (data.profId === 0) {
-				router.replace({name: 'login'})
+				router.replace({
+					path: '/login',
+					query: {redirect: router.currentRoute.fullPath}
+				})
 			} else {
 				router.replace({name: 'profile'})
 			}
 		})
 	},
-	initProfileLists ({commit}) {
-		commit(types.UPDATE_LOGIN_LOADING, true)
-		profApi.getProfileLists(data => {
-			commit(types.UPDATE_LOGIN_LOADING, false)
-			commit('initProfileLists', {data})
+	updateinfo ({commit, dispatch}, payload) {
+		profApi.updateUsername(payload, data => {
+			if (data.profId > 0) {
+				dispatch('initProfile')
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！'})
+			} else {
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'修改失败！'})
+			}
 		})
-	}
+	},
+	// updateEmail ({commit, dispatch}, payload) {
+	// 	profApi.updateEmail(payload, data => {
+	// 		if (data.profId > 0) {
+	// 			dispatch('initProfile')
+	// 			commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！'})
+	// 		} else {
+	// 			commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'修改失败！'})
+	// 		}
+	// 	})
+	// },
+	updatePassword ({commit, dispatch}, payload) {
+		profApi.updatePassword(payload, data => {
+			if (data == 1) {
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！'});
+				router.replace({
+					path: '/login',
+					query: {redirect: router.currentRoute.fullPath}
+				})
+			} else if (data == -1) {
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'密码错误！'})
+			} else {
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'修改失败！'})
+			}
+		})
+	},
+	// updateImage ({commit, dispatch}, payload) {
+	// 	profApi.updateImage(payload, data => {
+	// 		if (data.profId > 0) {
+	// 			dispatch('initProfile')
+	// 			commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！'})
+	// 		} else {
+	// 			commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'修改失败！'})
+	// 		}
+	// 	})
+	// },
 }
 
 const mutations = {
 	[types.INIT_PROFILE](state, {data}) {
 		state.profile = data
 	},
-	[types.DECLARE_LIKED_COUNT](state) {
-		if (state.profile.likePostsCount !== undefined) {
-			state.profile.likePostsCount --
-		}
-	},
-	[types.DECLARE_COMMENTED_COUNT](state) {
-		if (state.profile.commentPostsCount !== undefined) {
-			state.profile.commentPostsCount --
-		}
-	},
-	[types.UPDATE_PROFILE_LOADING] (state, data) {
-		state.profileLoading = data
-	},
 	resetProfile (state) {
 		state.profile = {}
 	},
-	initProfileLists (state, {data}) {
-		state.profileLists = data
-	}
 }
 
 export default {

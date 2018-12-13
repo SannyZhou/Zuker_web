@@ -14,11 +14,19 @@ const Router = [
         component: (resolve) => require(['./views/register.vue'], resolve)
     },
     {
+        path: '/forgetpwd',
+        meta: {
+            title: 'Forget'
+        },
+        component: (resolve) => require(['./views/forget.vue'], resolve)
+    },
+    {
         path: '/form',
         meta: {
-            title: 'NewHouse'
+            title: 'NewHouse',
+            requireAuth:true,
         },
-        component: (resolve) => require(['./views/form.vue'], resolve)
+        component: (resolve) => require(['./views/form.vue'], resolve),
     },
     {
         path: '/',
@@ -38,6 +46,9 @@ const Router = [
             {
                 path: 'my',
                 redirect: '/my/posts',
+                meta:{
+                    requireAuth: true
+                },
                 component: (resolve) => require(['./views/user.vue'], resolve),
                 children: [
                     {
@@ -52,7 +63,7 @@ const Router = [
                         path: 'messages',
                         meta: {
                             title: '',
-                            //requireAuth: true
+                            requireAuth: true
                         },
                         component: (resolve) => require(['./views/messages.vue'], resolve)
                     },

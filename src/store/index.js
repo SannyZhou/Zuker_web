@@ -11,42 +11,51 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		loadedAll: false,
-		loading: false,
-		refresh: false,
-		publishing: false,
-		inOrOut: [false, false, false, false]
+		isLogin: false,
+		token: localStorage.getItem('JWT') || '',
+		msgtype :"success",
+		msgcontent:"",
+		msgcount:0
 	},
 	getters: {
-		loadedAll: state => state.loadedAll,
-		loading: state => state.loading,
-		refresh: state => state.refresh,
-		publishing: state => state.publishing,
-		inOrOut: state => state.inOrOut
+		isLogin: state => !!state.token,
+		token: state => localStorage.getItem('JWT') || '',
+		msgcount: state => state.msgcount,
+		msgtype: state => state.msgtype,
+		msgcontent: state => state.msgcontent,
 	},
 	mutations: {
-		[types.UPDATE_LOADING] (state, data) {
-			state.loading = data
+		[types.LOG_OUT] (state, data){
+			state.token = '';
+			state.user_id = 0;
+			state.isLogin = false;
 		},
-		[types.UPDATE_LOADED_ALL] (state, data) {
-			state.loadedAll = data
+		[types.LOG_CHECK] (state, data){
+			document.cookie
+			state.token = localStorage.getItem('JWT') || '';
+			state.isLogin = !!state.token;
 		},
-		[types.UPDATE_REFRESH] (state, data) {
-			state.refresh = data
-			state.loadedAll = false
+		isLogin(state, t, u){
+			state.token = localStorage.getItem('JWT') || '';
+			state.user_id = u;
+			state.isLogin = !!state.token;
 		},
-		[types.PUBLISHING](state, data) {
-			state.publishing = data
+		isLogout(state){
+			state.token = '';
+			state.user_id = 0;
+			state.isLogin = false;
 		},
-		updateLogInOrOut (state, index) {
-			state.inOrOut[index] = false
-		},
-		resetLogInOrOut (state, payload) {
-			state.inOrOut = [true, true, true, true]
+		[types.SHOW_TOP_POPUP] (state, payload) {
+			state.msgtype = payload.msgtype;
+			state.msgcontent = payload.content;
+			state.msgcount = state.msgcount + 1;
+			console.log("msg type:", state.msgtype)
+			console.log("show msg:", state.msgcontent)
 		}
 	},
 	modules: {
 		userprofile,
 		user,
+		other,
 	}
 })

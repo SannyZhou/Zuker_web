@@ -38,8 +38,30 @@ axios.interceptors.response.use(
     }
 )
 
+axios.interceptors.request.use(
+    config => {
+        if (store.state.isLogin) {
+            config.headers.Authorization = `token ${store.state.isLogin}`;
+        }
+        return config;
+    },
+    err => {
+        return Promise.reject(err);
+    }
+)
+
 router.beforeEach((to, from, next) =>  {
     if(to.meta.requireAuth) {
+        // if (localStorage.getItem('JWT')){
+        //     var title = to.meta.title ? to.meta.title + ' - Zuker' : 'Zuker';
+        //     window.document.title = title;
+        //     next();
+        // }else{
+        //     next({
+        //         path: '/login',
+        //         query: {redirect: to.fullPath}
+        //     })
+        // }
         if (store.state.isLogin) {
             var title = to.meta.title ? to.meta.title + ' - Zuker' : 'Zuker';
             window.document.title = title;
@@ -57,7 +79,7 @@ router.beforeEach((to, from, next) =>  {
     }
 })
 
-store.commit('LOGIN_CHECK')
+store.commit('LOG_CHECK')
 
 new Vue({
     el: '#app',
