@@ -81,7 +81,7 @@
       </el-table-column>
       <el-table-column label="操作" prop='oper'>
         <template slot-scope="scope">
-          <el-button type="primary" @click.stop="delClick(scope.$index, tableData)">删除</el-button>
+          <el-button type="primary" @click.stop="delClick(scope.$index)">删除</el-button>
         </template>
       </el-table-column>
   </el-table>
@@ -147,8 +147,11 @@
               expands:[]
           }
       },
+      created(){
+          this.getCollections();
+      },
       methods:{
-       //在<table>里，我们已经设置row的key值设置为每行数据id：row-key="name"
+       //在<table>里，已经设置row的key值设置为每行数据id：row-key="name"
           rowClick(row, event, column) {
               Array.prototype.remove = function (val) {
                   let index = this.indexOf(val);
@@ -165,8 +168,25 @@
               }
           },
 
-          delClick(index, rows){
-            rows.splice(index, 1);
+          delClick(index){
+            this.tableData.splice(index, 1);
+
+            //发送要删除的序号
+            var obj = this;
+            this.$axios.post('/api/collections', index).then(function(res) {
+                obj.$message.success('删除成功');
+            }).catch(function(err) {
+                obj.$message.error('删除失败');
+            })
+          },
+          getCollections() {
+            var obj = this;
+            this.$axios.get('/api/collections').then(function(res) {
+                obj.tableData = res.data;
+                obj.$message.success('载入成功');
+            }).catch(function(err) {
+                obj.$message.error('载入失败');
+            })
           },
 
       }

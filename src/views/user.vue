@@ -17,6 +17,9 @@
             <el-menu-item index="/my/setting">
                 个人信息
             </el-menu-item>
+            <el-menu-item index="/my/collections">
+                我的收藏
+            </el-menu-item>
         </el-menu>
     </el-aside>
     <router-view></router-view>
