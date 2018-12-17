@@ -19,7 +19,17 @@
                     <el-input v-model="House.description" style="width: 80%" type="textarea" rows="5" ></el-input>
                 </el-form-item>
                 <el-form-item label="房源照片：" prop="image">
-                    <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture" :file-list="House.imageFile" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+                    <!-- el-upload 中的action参数为处理图片上传的后端接口 -->
+                    <el-upload 
+                        ref="upload"
+                        action="/upload" 
+                        name="picture"
+                        list-type="picture-card"
+                        :file-list="fileList"
+                        :before-upload="beforeUpload"
+                        :on-preview="handlePreview"
+                        :on-success="handleSuccess"
+                        :on-remove="handleRemove">
                         <i class="el-icon-plus"></i>
                     </el-upload>
                     <el-dialog :visible.sync="dialogVisible">
@@ -97,6 +107,7 @@
     export default {
         data () {
             return {
+                fileList: [],
                 House: {
                     name: '',
                     description: '',
@@ -244,27 +255,77 @@
             };
         },
     methods: {
-        handleRemove (file, fileList) {             
-                console.log(file, fileList);
-            },
-        handlePictureCardPreview(file) {
+        handleRemove(file, fileList) {
+            this.$message({
+                type: 'info',
+                message: '已删除原有图片',
+                duration: 6000
+            });
+        },
+        handlePreview(file) {
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
+        beforeUpload(file) {
+            const isJPG = file.type === 'image/jpeg';
+            const isGIF = file.type === 'image/gif';
+            const isPNG = file.type === 'image/png';
+            const isBMP = file.type === 'image/bmp';
+            const isLt2M = file.size / 1024 / 1024 < 2;
+ 
+            if (!isJPG && !isGIF && !isPNG && !isBMP) {
+                this.$message.error('上传图片必须是JPG/GIF/PNG/BMP 格式!');
+            }
+            if (!isLt2M) {
+                this.$message.error('上传图片大小不能超过 2MB!');
+            }
+            return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
+        }, 
+        handleSuccess(res, file) {
+            this.$message({
+                type: 'info',
+                message: '图片上传成功',
+                duration: 6000
+            });
+            if (file.response.success) {
+                this.editor.picture = file.response.message; //将返回的文件储存路径赋值picture字段
+                this.house.imageUrl.append(file.response.message)
+            } else {
+                this.$message.warning("图片上传失败！")
+            }
+        },    
         submit (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                alert('submit!');
-                } else {
-                console.log('error submit!!');
-                return false;
-                /*console.log('submit!'),
-                console.log(this.House.name),
-                console.log(this.House.description);
-                console.log(this.House.location);
-                console.log(this.House.phoneNumber);
-                console.log(this.House.minPrice);
-                console.log(this.House.maxPrice);
+                    var house = {
+                        name: this.House.name, 
+            	        description: this.House.description,
+                        location: this.House.location,
+                        phoneNumber: this.House.phoneNumber,
+                        minPrice: this.House.minPrice,
+                        maxPrice: this.House.maxPrice,
+                        availableTime_start: this.House.availableTime_start,
+                        availableTime_end: this.House.availableTime_end,
+                        acreage: this.House.acreage,
+                        decoration: this.House.decoration,
+                        type: this.House.type,
+                        method: this.House.method,
+                        hall: this.House.hall,
+                        room: this.House.room,
+                        bath: this.House.bath,
+                        imageFile: this.House.imageFile,
+                        others: this.House.others,
+                    }
+                    this.$axios.post('/api/house', house).then(function(res) {
+                        this.$message.success("房源已发布！")
+            	    
+                }).catch(function(err){
+            	    this.$message.error("房源发布失败");
+            	})}
+                else {
+                alers('信息有误，请按提示重新填写！')
+                /* console.log('Error');*/
+                /*
                 console.log(this.House.availableTime_start);
                 console.log(this.House.availableTime_end);
                 console.log(this.House.acreage);
@@ -282,6 +343,9 @@
             },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      uploadImageMethod() {
+
       }
     }
 }
