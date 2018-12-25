@@ -1,7 +1,7 @@
 import axios from 'axios'
 export default {
 	login (payload, cb) {
-		let url = 'http://localhost:8080/zuker/user/login'
+		let url = '/api/user/login'
 		axios({
 			url: url,
 			method: 'post',
@@ -22,7 +22,7 @@ export default {
 		cb(1)})
 	},
 	register (payload, cb) {
-		let url = 'http://localhost:8080/zuker/user/register'
+		let url = '/api/user/register'
 		axios({
 			url: url,
 			method: 'post',
