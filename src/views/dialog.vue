@@ -57,7 +57,7 @@ export default {
                 content: this.text
             }
             var obj = this;
-            this.$axios.post('/api/messages', data).then(function(res) {
+            this.$axios.post('/api/usercenter/messages', data).then(function(res) {
                 obj.$message.success('发送成功');
                 obj.text = '';
                 obj.$emit('send-message');
