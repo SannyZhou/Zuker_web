@@ -13,7 +13,7 @@ export default {
 				'Content-Type': 'application/json; charset=utf-8'
 			}
 		}).then((response) => cb(response.data)).catch((response) => {
-			let data = {'user_id':1,'token':'JWT'};
+			let data = {'token':'JWT'};
 			cb(data);
 		})
 	},

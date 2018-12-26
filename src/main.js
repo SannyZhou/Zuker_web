@@ -41,7 +41,7 @@ axios.interceptors.response.use(
 axios.interceptors.request.use(
     config => {
         if (store.state.isLogin) {
-            config.headers.Authorization = `token ${store.state.isLogin}`;
+            config.headers.Authorization = localStorage.getItem('JWT');
         }
         return config;
     },
