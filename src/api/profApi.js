@@ -1,22 +1,19 @@
 import axios from 'axios'
-import { platform } from 'os';
 export default {
 	getProfile(payload, cb) {
-		let url = '/api/profile/getprofile'
+		let url = '/api/usercenter/getprofile'
 		axios.get(url, {
 			data: payload,
-			withCredentials: true
-		}).then((response) => cb(response.data)).catch((response) => cb(1))
+		}).then((response) => cb(response.data))
 	},
 	updateinfo (payload, cb){
-		let url = '/api/profile/update'
+		let url = '/api/usercenter/update'
 		axios({
 			url: url,
 			method: 'post',
 			data: {
-				user_id: payload.user_id,
-				username: payload.username,
-				email: payload.email
+				new_username: payload.username,
+				new_email: payload.email
 			},
 			headers: {
 				'Content-Type': 'application/json; charset=utf-8'
@@ -25,19 +22,17 @@ export default {
 		}).then((response) => cb(response.data)).catch((response) => cb(1))
 	},
 	updatePassword (payload, cb){
-		let url = '/api/profile/update/password'
+		let url = '/api/user/update/password'
 		axios({
 			url: url,
 			method: 'post',
 			data: {
-				user_id: payload.user_id,
-				old_password: payload.oldpassword,
-				new_password: payload.newpassword
+				origin_pwd: payload.orgin_pwd,
+				new_pwd: payload.new_pwd
 			},
 			headers: {
 				'Content-Type': 'application/json; charset=utf-8'
-			},
-			withCredentials: true
+			}
 		}).then((response) => cb(response.data))
 	},
 	updateImage (payload, cb){

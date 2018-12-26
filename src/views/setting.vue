@@ -72,6 +72,14 @@ export default {
 		        });
 		        return;
 			}
+			var reg = RegExp(/[A-Za-z0-9_-]+@[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)+/)
+			if (!this.profileForm.email.match(reg)){
+				this.$message({
+		          message: '邮箱地址格式不正确！',
+		          type: 'warning'
+		        });
+		        return;
+			}
 			this.$store.dispatch('updateinfo', this.profileForm);
 			setTimeout(() => {
 				console.log(this.$store.state.msgtype,  this.$store.state.msgcontent);

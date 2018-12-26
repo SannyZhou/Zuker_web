@@ -53,7 +53,6 @@ export default {
 
 	},
 	created () {
-		this.$store.dispatch('initProfile')
 		if (this.$store.state.isLogin){
 			if (this.$route.query.redirect === undefined || this.$route.query.redirect === ''){
 				this.$router.replace('/my')

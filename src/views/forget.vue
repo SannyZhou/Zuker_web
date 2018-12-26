@@ -29,7 +29,6 @@
 export default {
 	data () {
 		return {
-			user_id: 0,
 			forgetForm: {username: '', password: '', email: ''},
 			isLogin: false
 		}
@@ -53,9 +52,9 @@ export default {
 		        return;
 			}
 			this.$store.dispatch('forget', this.forgetForm);
-            /*this.$axios.post('/auth/forget', {
-            	account: this.account, 
-            	password: this.password,
+            this.$axios.post('/api/user/forget', {
+            	username: this.account, 
+            	new_password: this.password,
             	email: this.email
             }).then(function(res){
             	if (res.data.ifforget == '1'){
@@ -72,7 +71,7 @@ export default {
         	}).bind(this)
             .catch(function(err) {
                 console.log(err.response)
-			})*/
+			})
 			this.forgetForm.username = null;
 			this.forgetForm.password = null;
 			this.forgetForm.email = null;

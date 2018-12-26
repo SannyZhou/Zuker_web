@@ -49,21 +49,15 @@ const actions = {
 		})
 	},
 	logout ({commit, dispatch}) {
-		userApi.logout(data => {
-			console.log('logout');
-			if (data > 0) {
-				commit('resetProfile')
-				dispatch('isToLogout')
-				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'退出成功！'})
-			} else {
-				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'退出失败！'})
-			}
-		})
+		console.log('logout');
+		commit('resetProfile')
+		dispatch('isToLogout')
+		commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'退出成功！'})
 	},
 	register({commit, dispatch}, payload){
 		userApi.register(payload, data => {
 			if (data > 0){
-				dispatch('initProfile')
+				// dispatch('initProfile')
 				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'注册成功！'})
 			} else{
 				commit(types.SHOW_TOP_POPUP, {'msgtype': 'warning', 'content':'账号已被注册！'})

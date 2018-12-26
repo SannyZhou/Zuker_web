@@ -1,6 +1,7 @@
 import * as types from '../mutation-types'
 import profApi from '../../api/profApi'
 import router from '../../router'
+import Axios from 'axios'
 
 const state = {
 	
@@ -12,8 +13,8 @@ const getters = {
 const actions = {
 	initProfile({commit, dispatch}, payload) {
 		profApi.getProfile(payload, data => {
-			data = {username:'test', email:'test'}
-			commit(types.INIT_PROFILE, {data})
+			// data = {username:'test', email:'test'}
+			commit(types.INIT_PROFILE, data)
 		})
 	},
 	updateinfo ({commit, dispatch}, payload) {
@@ -36,7 +37,7 @@ const actions = {
 	// 		}
 	// 	})
 	// },
-	updatePassword ({commit, dispatch}, payload) {
+	updatepwd ({commit, dispatch}, payload) {
 		profApi.updatePassword(payload, data => {
 			if (data == 1) {
 				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！'});

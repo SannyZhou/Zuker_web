@@ -17,7 +17,8 @@ export default new Vuex.Store({
 		msgcontent:"",
 		msgcount:0,
 		profile: {
-			type: Object
+			username:'',
+			email:''
 		},
 	},
 	getters: {
@@ -57,10 +58,12 @@ export default new Vuex.Store({
 			console.log("show msg:", state.msgcontent)
 		},
 		[types.INIT_PROFILE](state, {data}) {
-			state.profile = data
+			state.profile.username = data.username;
+			state.profile.email = data.email;
+
 		},
 		resetProfile (state) {
-		state.profile = {}
+			state.profile = {};
 		},
 	},
 	modules: {

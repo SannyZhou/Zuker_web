@@ -49,9 +49,24 @@ export default {
 			this.registerForm.email = '';
 		},
 		register () {
-			if (this.registerForm.username == '' || this.registerForm.password == ''){
+			if (this.registerForm.username === '' || this.registerForm.password === '' || this.registerForm.email === ''){
 				this.$message({
 		          message: '必要信息不能为空！',
+		          type: 'warning'
+		        });
+		        return;
+			}
+			var reg = RegExp(/[A-Za-z0-9_-]+@[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)+/)
+			if (!this.registerForm.email.match(reg)){
+				this.$message({
+		          message: '邮箱地址格式不正确！',
+		          type: 'warning'
+		        });
+		        return;
+			}
+			if (this.registerForm.password.length < 6){
+				this.$message({
+		          message: '密码不可以少于6位！',
 		          type: 'warning'
 		        });
 		        return;
@@ -67,7 +82,7 @@ export default {
 					this.$message(param);
 				}
 				this.$router.replace('/login');
-			}, 500)
+			}, 800)
             /*this.$axios.post('/auth/register', {
             	account: this.account, 
             	password: this.password,
