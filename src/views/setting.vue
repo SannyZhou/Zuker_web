@@ -2,7 +2,7 @@
 <template>
 <el-main class="profile">
 	<el-card :body-style="{ padding: '0px'}" class="profile-header">
-		<button class="user-pic"  @mouseover="edituserpic" @mouseout="canceleditpic">
+		<button class="user-pic"  @mouseover="edituserpic" @mouseout="canceleditpic" @click="edituserpic">
 				<img class='userpic' src='../common/assets/logo.png' style="cursor:pointer">
 				<img v-if="showeditpic" class='button-edit' src='../common/assets/camera.png' style="cursor:pointer" >
 		</button>
@@ -30,7 +30,7 @@
 			</el-col>
 		</el-row></span>
 		<div class="editinfo">
-		<el-button type="text" class="button"><img src="../common/assets/edit.png" class="edit-info" @click="toeditprofile"></el-button>
+		<el-button type="text" class="button" @click="toeditprofile"><img src="../common/assets/edit.png" class="edit-info"></el-button>
 		</div>
 		</div>
 	</el-card>
@@ -41,7 +41,6 @@
 export default {
 	data(){
 		return {
-			flag: false,
 			userpic: '../common/assets/logo.png',
 			showeditpic: false,
 			showeditprofile:false,
@@ -58,9 +57,40 @@ export default {
 			this.showeditpic = false
 		},
 		toeditprofile (){
-			this.showeditprofile = true
+			if (this.showeditprofile === false){
+				this.showeditprofile = true
+			}
+			else{
+				this.editprofile();
+			}
 		},
 		editprofile (){
+			if (this.profileForm.username === '' || this.profileForm.email === ''){
+				this.$message({
+		          message: '修改信息不能为空！',
+		          type: 'warning'
+		        });
+		        return;
+			}
+			this.$store.dispatch('updateinfo', this.profileForm);
+			setTimeout(() => {
+				console.log(this.$store.state.msgtype,  this.$store.state.msgcontent);
+				let type = this.$store.state.msgtype;
+				let msg = this.$store.state.msgcontent;
+				if (msg !== ""){
+					var param = {'type': type, 'message': msg};
+					console.log('message param:', param);
+					this.$message(param);
+				}
+				if (this.$store.state.msgtype === 'success'){
+					console.log(this.$store.state.profile);
+					this.profileForm.username = this.$store.state.profile.username;
+					this.profileForm.email = this.$store.state.profile.email;
+					this.showeditprofile = false;
+				}
+			}, 500)
+		},
+		updatePwd (){
 			if (this.profileForm.username === '' || this.profileForm.email === ''){
 				this.$message({
 		          message: '修改信息不能为空！',
@@ -78,20 +108,22 @@ export default {
 					console.log('message param:', param);
 					this.$message(param);
 				}
-				this.showeditprofile = false;
+				if (this.$store.msgtype === 'success'){
+					this.profileForm = this.$store.state.profile;
+					this.showeditprofile = false;
+				}
 			}, 500)
 		},
-
-		// edituserpic (){
-		// 	if (this.profileForm.username === '' || this.profileForm.email === ''){
-		// 		this.$message({
-		//           message: '修改信息不能为空！',
-		//           type: 'warning'
-		//         });
-		//         return;
-		// 	}
-		// 	this.$store.dispatch('editprof', loginForm);
-		// }
+		edituserpic (){
+			// if (this.profileForm.username === '' || this.profileForm.email === ''){
+			// 	this.$message({
+		    //       message: '修改信息不能为空！',
+		    //       type: 'warning'
+		    //     });
+		    //     return;
+			// }
+			// this.$store.dispatch('editprof', loginForm);
+		}
 	},
 	computed: {
 		// data () {
@@ -99,16 +131,14 @@ export default {
 		// }
 	},
 	created () {
-		// if (this.$store.getters.profile.profId === undefined || this.$store.getters.profile.profId === 0) {
-		// 	this.$store.dispatch('initProfile')
-		// }
-		// this.flag = true
+		// this.$store.dispatch('initProfile');
+		// this.profileForm.username = this.$store.state.profile.username;
+		// this.profileForm.email = this.$store.state.profile.email;
 	},
 	activated () {
-		// if (!this.flag && (this.$store.getters.profile.profId === 0 || this.$store.getters.profile.profId === undefined)) {
-		// 	this.$router.replace({name: 'login'})
-		// }
-		// this.flag = false
+		this.$store.dispatch('initProfile');
+		this.profileForm.username = this.$store.state.profile.username;
+		this.profileForm.email = this.$store.state.profile.email;
 	}
 }
 </script>

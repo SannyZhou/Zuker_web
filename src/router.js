@@ -81,6 +81,14 @@ const Router = [
                             title: ''
                         },
                         component: (resolve) => require(['./views/collections.vue'], resolve)
+                    },
+                    {
+                        path: 'updatepwd',
+                        meta:{
+                            title:'',
+                            requireAuth:true
+                        },
+                        component: (resolve) => require(['./views/updatepwd.vue'], resolve)
                     }
                 ]
             },

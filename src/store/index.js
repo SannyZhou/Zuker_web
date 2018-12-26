@@ -15,7 +15,10 @@ export default new Vuex.Store({
 		token: localStorage.getItem('JWT') || '',
 		msgtype :"success",
 		msgcontent:"",
-		msgcount:0
+		msgcount:0,
+		profile: {
+			type: Object
+		},
 	},
 	getters: {
 		isLogin: state => !!state.token,
@@ -23,6 +26,7 @@ export default new Vuex.Store({
 		msgcount: state => state.msgcount,
 		msgtype: state => state.msgtype,
 		msgcontent: state => state.msgcontent,
+		profile: state => state.profile,
 	},
 	mutations: {
 		[types.LOG_OUT] (state, data){
@@ -51,7 +55,13 @@ export default new Vuex.Store({
 			state.msgcount = state.msgcount + 1;
 			console.log("msg type:", state.msgtype)
 			console.log("show msg:", state.msgcontent)
-		}
+		},
+		[types.INIT_PROFILE](state, {data}) {
+			state.profile = data
+		},
+		resetProfile (state) {
+		state.profile = {}
+		},
 	},
 	modules: {
 		userprofile,

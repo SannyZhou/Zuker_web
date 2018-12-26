@@ -12,14 +12,16 @@ export default {
 			headers: {
 				'Content-Type': 'application/json; charset=utf-8'
 			}
-		}).then((response) => cb(response.data)).catch((response) => {
-			let data = {'user_id':1,'token':'JWT'};
-			cb(data);
-		})
+		}).then((response) => cb(response.data))
+		// .catch((response) => {
+		// 	let data = {'token':'JWT'};
+		// 	cb(data);
+		// })
 	},
 	logout (cb) {
-		axios.post('http://localhost:8080/zuker/user/logout').then((response) => cb(response.data)).catch((response) =>{
-		cb(1)})
+		axios.post('/api/user/logout').then((response) => cb(response.data))
+		// .catch((response) =>{
+		// cb(1)})
 	},
 	register (payload, cb) {
 		let url = '/api/user/register'
@@ -37,7 +39,7 @@ export default {
 		}).then((response) => cb(response.data))
 	},
 	forget (payload, cb) {
-		let url = 'http://localhost:8080/zuker/user/forget'
+		let url = '/api/zuker/user/forget'
 		axios({
 			url: url,
 			method: 'post',

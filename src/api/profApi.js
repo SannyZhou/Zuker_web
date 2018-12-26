@@ -2,14 +2,14 @@ import axios from 'axios'
 import { platform } from 'os';
 export default {
 	getProfile(payload, cb) {
-		// let url = 'http://localhost:8080/zuker/profile/getprofile'
-		// axios.get(url, {
-		// 	data: payload,
-		// 	withCredentials: true
-		// }).then((response) => cb(response.data))
+		let url = '/api/profile/getprofile'
+		axios.get(url, {
+			data: payload,
+			withCredentials: true
+		}).then((response) => cb(response.data)).catch((response) => cb(1))
 	},
 	updateinfo (payload, cb){
-		let url = 'http://localhost:8080/zuker/profile/update/username'
+		let url = '/api/profile/update'
 		axios({
 			url: url,
 			method: 'post',
@@ -22,10 +22,10 @@ export default {
 				'Content-Type': 'application/json; charset=utf-8'
 			},
 			withCredentials: true
-		}).then((response) => cb(response.data))
+		}).then((response) => cb(response.data)).catch((response) => cb(1))
 	},
 	updatePassword (payload, cb){
-		let url = 'http://localhost:8080/zuker/profile/update/password'
+		let url = '/api/profile/update/password'
 		axios({
 			url: url,
 			method: 'post',
@@ -41,7 +41,7 @@ export default {
 		}).then((response) => cb(response.data))
 	},
 	updateImage (payload, cb){
-		let url = 'http://localhost:8080/zuker/profile/update/image'
+		let url = '/api/profile/update/image'
 		let formed = new FormData();
 		formed.append('file', payload.img_f, payload.img_f.name)
 		axios({

@@ -20,6 +20,9 @@
             <el-menu-item index="/my/collections">
                 我的收藏
             </el-menu-item>
+            <el-menu-item index="/my/updatepwd">
+                修改密码
+            </el-menu-item>
         </el-menu>
     </el-aside>
     <router-view></router-view>
