@@ -12,11 +12,7 @@ export default {
 			headers: {
 				'Content-Type': 'application/json; charset=utf-8'
 			}
-		}).then((response) => cb(response.data))
-		// .catch((response) => {
-		// 	let data = {'token':'JWT'};
-		// 	cb(data);
-		// })
+		}).then((response) => cb(response.data)).catch((response) => {
 			let data = {'token':'JWT'};
 			cb(data);
 		})
