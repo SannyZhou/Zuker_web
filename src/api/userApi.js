@@ -17,6 +17,9 @@ export default {
 		// 	let data = {'token':'JWT'};
 		// 	cb(data);
 		// })
+			let data = {'token':'JWT'};
+			cb(data);
+		})
 	},
 	logout (cb) {
 		axios.post('/api/user/logout').then((response) => cb(response.data))

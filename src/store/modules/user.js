@@ -36,11 +36,11 @@ const actions = {
 	},
 	login ({commit, dispatch}, payload) {
 		userApi.login(payload, data => {
-			if (data.user_id > 0) {
-				dispatch('initProfile', {user_id:data.user_id});
+			if ('token' in data) {
+				//dispatch('initProfile', {user_id:data.user_id});
 				dispatch('isToLogin', {token:data.token});
 				Axios.defaults.headers.common['Authorization'] = data.token;
-				commit('isLogin', data.token, data.user_id);
+				commit('isLogin', data.token);
 				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'登录成功！'});
 			} else {
 				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'账号或密码错误，登录失败！'});

@@ -39,9 +39,9 @@ export default new Vuex.Store({
 			state.token = localStorage.getItem('JWT') || '';
 			state.isLogin = !!state.token;
 		},
-		isLogin(state, t, u){
+		isLogin(state, t){
 			state.token = localStorage.getItem('JWT') || '';
-			state.user_id = u;
+			//state.user_id = u;
 			state.isLogin = !!state.token;
 		},
 		isLogout(state){

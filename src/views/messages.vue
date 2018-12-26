@@ -82,12 +82,12 @@ export default {
         },
         getMessages() {
             var obj = this;
-            this.$axios.get('/api/messages').then(function(res) {
+            this.$axios.get('/api/usercenter/messages').then(function(res) {
                 obj.dialogs = res.data;
             })
         }
     },
-    beforeRouterEnter(to, from, next) {
+    beforeRouteEnter(to, from, next) {
         next(
             obj => {
                 obj.getMessages();

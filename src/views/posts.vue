@@ -173,7 +173,7 @@
   
               //发送要删除的序号
               var obj = this;
-              this.$axios.post('/api/posts', index).then(function(res) {
+              this.$axios.post('/api/usercenter/posts', index).then(function(res) {
                   obj.$message.success('删除成功');
               }).catch(function(err) {
                   obj.$message.error('删除失败');
@@ -181,7 +181,7 @@
             },
             getPosts() {
               var obj = this;
-              this.$axios.get('/api/posts').then(function(res) {
+              this.$axios.get('/api/usercenter/posts').then(function(res) {
                   obj.tableData = res.data;
                   obj.$message.success('载入成功');
               }).catch(function(err) {
