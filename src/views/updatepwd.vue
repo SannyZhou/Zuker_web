@@ -9,15 +9,18 @@
 			<el-col class="more">
 				<div class="moreeditinfo">
 				<label class='editlabel' for="inputorgin">&nbsp;原始密码&nbsp;&nbsp;</label>
-				<input type='password' class="moreinfo" name="inputorgin" id="inputorgin" v-model="pwdForm.origin_pwd">
+				<input type='password' class="moreinfo" name="inputorgin" id="inputorigin" v-model="pwdForm.origin_pwd">
+				<img id='pwdimgorigin' src='../common/assets/hide2.png' @click="hidepwdorigin" style="cursor:pointer;position:absolute;margin-right:0px;margin-top: 3%;z-index:5;background-repeat:no-repeat;backgroud-position:0px 0px;width:25px;height:20px;">
 				</div>
 				<div class="moreeditinfo">
 				<label class='editlabel' for="inputnew">&nbsp;&nbsp;&nbsp;新密码&nbsp;&nbsp;&nbsp;</label>
 				<input type='password' class="moreinfo" name="inputnew" id="inputnew" v-model="pwdForm.new_pwd">
+				<img id='pwdimgnew' src='../common/assets/hide2.png' @click="hidepwdnew" style="cursor:pointer;position:absolute;margin-right:0px;margin-top: 3%;z-index:5;background-repeat:no-repeat;backgroud-position:0px 0px;width:25px;height:20px;">
 				</div>
 				<div class="moreeditinfo">
                 <label class='editlabel' for="inputrenew">重复新密码</label>
 				<input type='password' class="moreinfo" name="inputrenew" id="inputrenew" v-model="pwdForm.re_new_pwd">
+				<img id='pwdimgrenew' src='../common/assets/hide2.png' @click="hidepwdrenew" style="cursor:pointer;position:absolute;margin-right:0px;margin-top: 3%;z-index:5;background-repeat:no-repeat;backgroud-position:0px 0px;width:25px;height:20px;">
 				</div>
 			</el-col>
 		</el-row></span>
@@ -67,16 +70,41 @@ export default {
 				console.log(this.$store.state.msgtype,  this.$store.state.msgcontent);
 				let type = this.$store.state.msgtype;
 				let msg = this.$store.state.msgcontent;
-				if (msg !== ""){
+				let msgcontenttype = this.$store.state.msgcontenttype;
+				if (msg !== "" && msgcontenttype === 'updatepwd'){
 					var param = {'type': type, 'message': msg};
 					console.log('message param:', param);
 					this.$message(param);
+				}else{
+					this.$message({
+						message: '加载失败！',
+						type: 'error'
+					});
+					return;
 				}
 				if (this.$store.state.msgtype === 'success'){
 					this.$store.dispatch('logout');
 				}
 			}, 500)
 		},
+		hidepwdorigin(){
+			var inputpwd = document.getElementById("inputorigin");
+			var pwdimg = document.getElementById("pwdimgorigin");
+			inputpwd.type = (inputpwd.type === 'password')?'text':'password';
+			pwdimg.src = (inputpwd.type === 'text')?'../src/common/assets/hide.png':'../src/common/assets/hide2.png';
+		},
+		hidepwdnew(){
+			var inputpwd = document.getElementById("inputnew");
+			var pwdimg = document.getElementById("pwdimgnew");
+			inputpwd.type = (inputpwd.type === 'password')?'text':'password';
+			pwdimg.src = (inputpwd.type === 'text')?'../src/common/assets/hide.png':'../src/common/assets/hide2.png';
+		},
+		hidepwdrenew(){
+			var inputpwd = document.getElementById("inputrenew");
+			var pwdimg = document.getElementById("pwdimgrenew");
+			inputpwd.type = (inputpwd.type === 'password')?'text':'password';
+			pwdimg.src = (inputpwd.type === 'text')?'../src/common/assets/hide.png':'../src/common/assets/hide2.png';
+		}
 	},
 	computed: {
 		// data () {
@@ -129,10 +157,12 @@ export default {
 			width 100%
 			.more
 				font-size 100%
+				// position relatixve
 				.moreeditinfo
 					font-size 100%
 					white-space pre-line
 					margin-top 5px
+					// position relative
 					.editlabel
 						margin-top 10px
 						text-align center
@@ -141,6 +171,7 @@ export default {
 					.moreinfo
 						margin-top 10px
 						font-size 100%
+						position relative
 		.button
 			margin-top 30px
 			outline none

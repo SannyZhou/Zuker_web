@@ -11,9 +11,14 @@
         	<div class='accountregister'>
 			  	<div class="email"><h2>Email: </h2><input type="text" v-model="registerForm.email" placeholder="输入邮箱..." style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;" ></div>
 			    <div class="account"><h2>* 用户名: </h2><input type="text" v-model="registerForm.username" placeholder="输入用户名..." style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;" required></div>
-			    <div class="password"><h2>* 密码: </h2><input type="text" v-model="registerForm.password" placeholder="输入密码..." style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;" required></div>
+			    <div class="password"><h2>* 密码: </h2>
+				<input id='inputpwd' onkeypress="if(event.keyCode==13) {btnregister.click();return false;}" type="password" v-model="registerForm.password" placeholder="输入密码..." style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;" required>
+				<img id='pwdimg' src='../common/assets/hide2.png' @click="hidepwd" style="cursor:pointer;position:absolute;right:5px;margin-top: 4%;z-index:5;background-repeat:no-repeat;backgroud-position:0px 0px;width:25px;height:20px;">
+				</div>
+			</div>
+			<div class="accountregister">
 			    <div style="text-align: center; font-size: 20px; color: #ED4956"> *标签为必填项</div>
-		    	<button :class="{'active': registerForm.username.length !== 0}" @click="register">新用户注册</button>
+		    	<button :class="{'active': registerForm.username.length !== 0}" id="btnregister" @click="register" style="margin-top:25px;outline: none;border:none;color:#FFF;padding: 4px;font-size: 20px;border-radius: 10px;width: 30%;height: 40px;background: #26A2FF;">新用户注册</button>
 		    </div>
 		</div>
 		<div class='tologin'>
@@ -76,37 +81,35 @@ export default {
 				console.log(this.$store.state.msgtype,  this.$store.state.msgcontent);
 				let type = this.$store.state.msgtype;
 				let msg = this.$store.state.msgcontent;
-				if (msg !== ""){
+				let msgcontenttype = this.$store.state.msgcontenttype;
+				if (msg !== "" && msgcontenttype === 'register'){
 					var param = {'type': type, 'message': msg};
 					console.log('message param:', param);
 					this.$message(param);
+					this.$router.replace('/login');
+				}else{
+					this.$message({
+						message: '加载失败！',
+						type: 'error'
+					});
+					return;
 				}
-				this.$router.replace('/login');
 			}, 800)
-            /*this.$axios.post('/auth/register', {
-            	account: this.account, 
-            	password: this.password,
-            	email: this.email
-            }).then(function(res){
-            	if (res.data.ifregister == '1'){
-            		this.$message.error('账号已被注册！');
-            	}
-            	else{
-	            	this.$notify({
-	            		title: '欢迎使用Zuker!',
-	            		type: 'success',
-	            		message: 'Hi, ' + this.account + '!',
-	            		duration: 5000
-	            	});
-	            }
-        	}).bind(this)
-            .catch(function(err) {
-                console.log(err.response)
-			})*/
 			this.registerForm.username = '';
 			this.registerForm.password = '';
 			this.registerForm.email = '';
 		},
+		hidepwd(){
+			var inputpwd = document.getElementById("inputpwd");
+			var pwdimg = document.getElementById("pwdimg");
+			inputpwd.type = (inputpwd.type === 'password')?'text':'password';
+			pwdimg.src = (inputpwd.type === 'text')?'src/common/assets/hide.png':'src/common/assets/hide2.png';
+		}
+	},
+	created(){
+		this.$message({
+			message: "欢迎注册Zuker！"
+		});
 	},
 	activated () {
 		this.$message({
@@ -168,6 +171,7 @@ export default {
 				display flex
 				width 100%
 				padding 10px 0
+				position relative
 				h2
 					flex 0 0 100px
 					display inline-block

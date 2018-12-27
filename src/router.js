@@ -47,7 +47,7 @@ const Router = [
                 path: 'my',
                 redirect: '/my/posts',
                 meta:{
-                    requireAuth: true
+                    // requireAuth: true
                 },
                 component: (resolve) => require(['./views/user.vue'], resolve),
                 children: [
@@ -86,7 +86,7 @@ const Router = [
                         path: 'updatepwd',
                         meta:{
                             title:'',
-                            requireAuth:true
+                            // requireAuth:true
                         },
                         component: (resolve) => require(['./views/updatepwd.vue'], resolve)
                     }

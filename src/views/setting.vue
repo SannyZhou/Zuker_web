@@ -85,10 +85,17 @@ export default {
 				console.log(this.$store.state.msgtype,  this.$store.state.msgcontent);
 				let type = this.$store.state.msgtype;
 				let msg = this.$store.state.msgcontent;
-				if (msg !== ""){
+				let msgcontenttype = this.$store.state.msgcontenttype;
+				if (msg !== "" && msgcontenttype === 'updateinfo'){
 					var param = {'type': type, 'message': msg};
 					console.log('message param:', param);
 					this.$message(param);
+				}else{
+					this.$message({
+						message: '加载失败！',
+						type: 'error'
+					});
+					return;
 				}
 				if (this.$store.state.msgtype === 'success'){
 					console.log(this.$store.state.profile);
@@ -98,30 +105,30 @@ export default {
 				}
 			}, 500)
 		},
-		updatePwd (){
-			if (this.profileForm.username === '' || this.profileForm.email === ''){
-				this.$message({
-		          message: '修改信息不能为空！',
-		          type: 'warning'
-		        });
-		        return;
-			}
-			this.$store.dispatch('editprof', profileForm);
-			setTimeout(() => {
-				console.log(this.$store.state.msgtype,  this.$store.state.msgcontent);
-				let type = this.$store.state.msgtype;
-				let msg = this.$store.state.msgcontent;
-				if (msg !== ""){
-					var param = {'type': type, 'message': msg};
-					console.log('message param:', param);
-					this.$message(param);
-				}
-				if (this.$store.msgtype === 'success'){
-					this.profileForm = this.$store.state.profile;
-					this.showeditprofile = false;
-				}
-			}, 500)
-		},
+		// updatePwd (){
+		// 	if (this.profileForm.username === '' || this.profileForm.email === ''){
+		// 		this.$message({
+		//           message: '修改信息不能为空！',
+		//           type: 'warning'
+		//         });
+		//         return;
+		// 	}
+		// 	this.$store.dispatch('editprof', profileForm);
+		// 	setTimeout(() => {
+		// 		console.log(this.$store.state.msgtype,  this.$store.state.msgcontent);
+		// 		let type = this.$store.state.msgtype;
+		// 		let msg = this.$store.state.msgcontent;
+		// 		if (msg !== ""){
+		// 			var param = {'type': type, 'message': msg};
+		// 			console.log('message param:', param);
+		// 			this.$message(param);
+		// 		}
+		// 		if (this.$store.msgtype === 'success'){
+		// 			this.profileForm = this.$store.state.profile;
+		// 			this.showeditprofile = false;
+		// 		}
+		// 	}, 500)
+		// },
 		edituserpic (){
 			// if (this.profileForm.username === '' || this.profileForm.email === ''){
 			// 	this.$message({

@@ -21,9 +21,9 @@ const actions = {
 		profApi.updateinfo(payload, data => {
 			if (data > 0) {
 				dispatch('initProfile')
-				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！'})
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！', 'msgcontenttype': 'updateinfo'})
 			} else {
-				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'修改失败！'})
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'修改失败！', 'msgcontenttype': 'updateinfo'})
 			}
 		})
 	},
@@ -40,11 +40,11 @@ const actions = {
 	updatepwd ({commit, dispatch}, payload) {
 		profApi.updatePassword(payload, data => {
 			if (data == 1) {
-				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！'});
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！', 'msgcontenttype': 'updatepwd'});
 			} else if (data == -1) {
-				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'密码错误！'})
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'密码错误！', 'msgcontenttype': 'updatepwd'})
 			} else {
-				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'修改失败！'})
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'修改失败！',  'msgcontenttype': 'updatepwd'})
 			}
 		})
 	},

@@ -16,6 +16,7 @@ export default new Vuex.Store({
 		msgtype :"success",
 		msgcontent:"",
 		msgcount:0,
+		msgcontenttype:"",
 		profile: {
 			username:'',
 			email:''
@@ -40,20 +41,21 @@ export default new Vuex.Store({
 			state.token = localStorage.getItem('JWT') || '';
 			state.isLogin = !!state.token;
 		},
-		isLogin(state, t){
+		[types.IS_LOGIN](state, t){
 			state.token = localStorage.getItem('JWT') || '';
 			//state.user_id = u;
 			state.isLogin = !!state.token;
 		},
-		isLogout(state){
+		[types.IS_LOGOUT](state){
 			state.token = '';
 			state.user_id = 0;
 			state.isLogin = false;
 		},
-		[types.SHOW_TOP_POPUP] (state, payload) {
+		[types.SHOW_TOP_POPUP](state, payload) {
 			state.msgtype = payload.msgtype;
 			state.msgcontent = payload.content;
 			state.msgcount = state.msgcount + 1;
+			state.msgcontenttype = payload.msgcontenttype;
 			console.log("msg type:", state.msgtype)
 			console.log("show msg:", state.msgcontent)
 		},
@@ -62,7 +64,7 @@ export default new Vuex.Store({
 			state.profile.email = data.email;
 
 		},
-		resetProfile (state) {
+		[types.RESET_PROFILE] (state) {
 			state.profile = {};
 		},
 	},

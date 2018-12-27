@@ -20,8 +20,10 @@
 			输入账号密码登录</h2>
 			<div class="accountLogin">
 				<div class="account"><h2>账号：</h2><input type="text" v-model="loginForm.username" placeholder="输入账号..." style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;"></div>
-				<div class="password"><h2>密码：</h2><input type="password" v-model="loginForm.password" placeholder="输入密码..." style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;"></div>
-				<button :class="{'active': loginForm.username.length !== 0}" @click="login">登录</button>
+				<div class="password"><h2>密码：</h2>
+				<input id='inputpwd' onkeypress="if(event.keyCode==13) {btnlogin.click();return false;}" type="password" v-model="loginForm.password" placeholder="输入密码..." style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;">
+				<img id='pwdimg' src='../common/assets/hide2.png' @click="hidepwd" style="cursor:pointer;position:absolute;right:5px;margin-top: 4%;z-index:5;background-repeat:no-repeat;backgroud-position:0px 0px;width:25px;height:20px;"></div>
+				<button :class="{'active': loginForm.username.length !== 0}" id="btnlogin" @click="login">登录</button>
 				<div class='tologin'>
 			<router-link to='/register'>创建新账号</router-link> | <router-link to='/forgetpwd'>忘记密码？</router-link>
 				</div>
@@ -46,7 +48,8 @@ export default {
 			show2: false,
 			loginForm:{username: '', password: ''},
 			user_id: 0,
-			isLogin:false
+			isLogin:false,
+			showpngurl:'../common/assets/hide2.png'
 		}
 	},
 	components: {
@@ -89,10 +92,17 @@ export default {
 				console.log(this.$store.state.msgtype,  this.$store.state.msgcontent);
 				let type = this.$store.state.msgtype;
 				let msg = this.$store.state.msgcontent;
-				if (msg !== ""){
+				let msgcontenttype = this.$store.state.msgcontenttype;
+				if (msg !== "" && msgcontenttype === 'login'){
 					var param = {'type': type, 'message': msg};
 					console.log('message param:', param);
 					this.$message(param);
+				}else{
+					this.$message({
+						message: '加载失败！',
+						type: 'error'
+					});
+					return;
 				}
 				if (this.$store.state.isLogin){
 					if (this.$route.query.redirect === undefined || this.$route.query.redirect === ''){
@@ -105,6 +115,12 @@ export default {
 		},
 		accountLogin () {
 			this.show = true
+		},
+		hidepwd(){
+			var inputpwd = document.getElementById("inputpwd");
+			var pwdimg = document.getElementById("pwdimg");
+			inputpwd.type = (inputpwd.type === 'password')?'text':'password';
+			pwdimg.src = (inputpwd.type === 'text')?'src/common/assets/hide.png':'src/common/assets/hide2.png';
 		}
 	},
 	activated () {
@@ -199,6 +215,7 @@ export default {
 				display flex
 				width 45%
 				padding 10px 0
+				position relative
 				h2
 					flex 0 0 60px
 					display inline-block

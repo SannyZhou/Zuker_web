@@ -36,6 +36,11 @@ export default {
     },
     methods: {
 
+    },
+    created(){
+        this.$message({
+            message: '欢迎加入Zuker！',
+        })
     }
 }
 </script>

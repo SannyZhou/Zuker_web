@@ -75,6 +75,9 @@ export default {
         }
     },
     created:function(){
+        this.$message({
+            message: "欢迎使用Zuker！"
+        });
         this.$store.commit(types.LOG_CHECK);
         this.isLogin = this.$store.state.isLogin;
     },
@@ -85,10 +88,17 @@ export default {
             setTimeout(() => {
 				let type = this.$store.state.msgtype;
 				let msg = this.$store.state.msgcontent;
-				if (msg !== ""){
+				let msgcontenttype = this.$store.state.msgcontenttype;
+				if (msg !== "" && msgcontenttype === 'logout'){
 					var param = {'type': type, 'message': msg};
 					console.log('message param:', param);
 					this.$message(param);
+				}else{
+					this.$message({
+						message: '加载失败！',
+						type: 'error'
+					});
+					return;
 				}
 			    this.$router.replace('/'); 
 			}, 500)
