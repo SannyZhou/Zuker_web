@@ -82,6 +82,7 @@ export default {
 				let type = this.$store.state.msgtype;
 				let msg = this.$store.state.msgcontent;
 				let msgcontenttype = this.$store.state.msgcontenttype;
+				console.log(msgcontenttype)
 				if (msg !== "" && msgcontenttype === 'register'){
 					var param = {'type': type, 'message': msg};
 					console.log('message param:', param);

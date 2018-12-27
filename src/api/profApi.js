@@ -27,7 +27,7 @@ export default {
 			url: url,
 			method: 'post',
 			data: {
-				origin_pwd: payload.orgin_pwd,
+				origin_pwd: payload.origin_pwd,
 				new_pwd: payload.new_pwd
 			},
 			headers: {

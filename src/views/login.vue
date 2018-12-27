@@ -96,7 +96,7 @@ export default {
 				if (msg !== "" && msgcontenttype === 'login'){
 					var param = {'type': type, 'message': msg};
 					console.log('message param:', param);
-					this.$message(param);
+					this.$notify(param);
 				}else{
 					this.$message({
 						message: '加载失败！',

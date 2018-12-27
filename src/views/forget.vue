@@ -12,7 +12,7 @@
 			  	<div class="email"><h2>*Email: </h2><input type="text" v-model="forgetForm.email" placeholder="输入邮箱..." style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;" ></div>
 			    <div class="account"><h2>* 用户名: </h2><input type="text" v-model="forgetForm.username" placeholder="输入用户名..." style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;" required></div>
 			    <div class="password"><h2>* 密码: </h2>
-				<input id='inputpwd' type="text" v-model="forgetForm.password" placeholder="输入密码..." style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;" required>
+				<input id='inputpwd' type="password" v-model="forgetForm.password" placeholder="输入密码..." style="font-weight: color: #EEE; text-align:left; padding: 10px; font-size: 16px;" required>
 				<img id='pwdimg' src='../common/assets/hide2.png' @click="hidepwd" style="cursor:pointer;position:absolute;right:5px;margin-top: 4%;z-index:5;background-repeat:no-repeat;backgroud-position:0px 0px;width:25px;height:20px;">
 				</div>
 			    <div style="text-align: center; font-size: 20px; color: #ED4956"> *标签为必填项</div>

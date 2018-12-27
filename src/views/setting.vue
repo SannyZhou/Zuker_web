@@ -44,7 +44,7 @@ export default {
 			userpic: '../common/assets/logo.png',
 			showeditpic: false,
 			showeditprofile:false,
-			profileForm:{username:'test', email:'test'}
+			profileForm:{username:'', email:''}
 		}
 	},
 	components: {
@@ -146,9 +146,9 @@ export default {
 		// }
 	},
 	created () {
-		// this.$store.dispatch('initProfile');
-		// this.profileForm.username = this.$store.state.profile.username;
-		// this.profileForm.email = this.$store.state.profile.email;
+		this.$store.dispatch('initProfile');
+		this.profileForm.username = this.$store.state.profile.username;
+		this.profileForm.email = this.$store.state.profile.email;
 	},
 	activated () {
 		this.$store.dispatch('initProfile');
