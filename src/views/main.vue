@@ -18,7 +18,7 @@
 </style>
 
 
-<template>
+<template : isLogin.sync='isLogin'>
     <el-container style="height: 100%;">
         <el-header type="flex" justify="space-around" style="background-color: #545c64">
             <el-row>
@@ -78,6 +78,10 @@ export default {
         this.$message({
             message: "欢迎使用Zuker！"
         });
+        this.$store.commit(types.LOG_CHECK);
+        this.isLogin = this.$store.state.isLogin;
+    },
+    activated:function(){
         this.$store.commit(types.LOG_CHECK);
         this.isLogin = this.$store.state.isLogin;
     },

@@ -16,7 +16,7 @@ export default new Vuex.Store({
 		msgtype :"success",
 		msgcontent:"",
 		msgcount:0,
-		msgcontenttype:"",
+		msgcontenttype:"login",
 		profile: {
 			username:'',
 			email:''
@@ -59,10 +59,9 @@ export default new Vuex.Store({
 			console.log("msg type:", state.msgtype)
 			console.log("show msg:", state.msgcontent)
 		},
-		[types.INIT_PROFILE](state, {data}) {
-			state.profile.username = data.username;
-			state.profile.email = data.email;
-
+		[types.INIT_PROFILE](state, data) {
+			state.profile = data;
+			console.log(state.profile)
 		},
 		[types.RESET_PROFILE] (state) {
 			state.profile = {};

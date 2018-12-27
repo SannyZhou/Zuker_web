@@ -37,7 +37,8 @@
 export default {
 	data(){
 		return {
-			pwdForm:{origin_pwd:'', new_pwd:'', re_new_pwd:''}
+			pwdForm:{origin_pwd:'', new_pwd:'', re_new_pwd:''},
+			newisLogin: this.$store.state.isLogin
 		}
 	},
 	components: {
@@ -82,10 +83,18 @@ export default {
 					});
 					return;
 				}
-				if (this.$store.state.msgtype === 'success'){
+				if (type === 'success'){
 					this.$store.dispatch('logout');
 				}
-			}, 500)
+			}, 300);
+			setTimeout(()=>{
+				this.newisLogin = this.$store.state.isLogin;
+			}, 800)
+			setTimeout(()=>{
+				if (!this.newisLogin){
+					this.$router.replace('/login');
+				}
+			}, 1200)
 		},
 		hidepwdorigin(){
 			var inputpwd = document.getElementById("inputorigin");
@@ -106,15 +115,16 @@ export default {
 			pwdimg.src = (inputpwd.type === 'text')?'../src/common/assets/hide.png':'../src/common/assets/hide2.png';
 		}
 	},
+	watch:{
+		newisLogin(newVal, oldVal){
+			this.$emit('update:isLogin', newVal);
+		}
+	},
 	computed: {
-		// data () {
-		// 	return this.$store.getters.profile
-		// }
+		
 	},
 	created () {
-		// this.$store.dispatch('initProfile');
-		// this.pwdForm.username = this.$store.state.profile.username;
-		// this.pwdForm.email = this.$store.state.profile.email;
+		console.log(this.isLogin)
 	},
 	activated () {
 	}

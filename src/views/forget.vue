@@ -54,6 +54,13 @@ export default {
 		        });
 		        return;
 			}
+			if (this.forgetForm.password.length < 6){
+				this.$message({
+					message: '密码长度不能短于6位！',
+					type: 'warning'
+				});
+				return;
+			}
 			this.$store.dispatch('forget', this.forgetForm);
 			setTimeout(() => {
 				console.log(this.$store.state.msgtype,  this.$store.state.msgcontent);

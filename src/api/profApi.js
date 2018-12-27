@@ -2,8 +2,12 @@ import axios from 'axios'
 export default {
 	getProfile(payload, cb) {
 		let url = '/api/usercenter/getprofile'
-		axios.get(url, {
-			data: payload,
+		axios({
+			url: url,
+			method: 'get',
+			headers: {
+				'Content-Type': 'application/json; charset=utf-8'
+			},
 		}).then((response) => cb(response.data))
 	},
 	updateinfo (payload, cb){
@@ -18,8 +22,7 @@ export default {
 			headers: {
 				'Content-Type': 'application/json; charset=utf-8'
 			},
-			withCredentials: true
-		}).then((response) => cb(response.data)).catch((response) => cb(1))
+		}).then((response) => cb(response.data))
 	},
 	updatePassword (payload, cb){
 		let url = '/api/user/update/password'
@@ -46,7 +49,6 @@ export default {
 			headers: {
 				'Content-Type': 'multipart/form-data; charset=utf-8'
 			},
-			withCredentials: true
 		}).then((response) => cb(response.data))
 	},
 	// add_img(event){  

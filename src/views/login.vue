@@ -55,7 +55,7 @@ export default {
 	components: {
 
 	},
-	created () {
+	created: function(){
 		if (this.$store.state.isLogin){
 			if (this.$route.query.redirect === undefined || this.$route.query.redirect === ''){
 				this.$router.replace('/my')
@@ -111,7 +111,7 @@ export default {
 						this.$router.replace(this.$route.query.redirect);
 					}
 				}
-			}, 500)
+			}, 800)
 		},
 		accountLogin () {
 			this.show = true
@@ -123,8 +123,7 @@ export default {
 			pwdimg.src = (inputpwd.type === 'text')?'src/common/assets/hide.png':'src/common/assets/hide2.png';
 		}
 	},
-	activated () {
-		
+	activated :function() {
 		this.show2 = false
 		this.show = false
 	},

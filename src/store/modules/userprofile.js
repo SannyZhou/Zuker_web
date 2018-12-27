@@ -14,16 +14,19 @@ const actions = {
 	initProfile({commit, dispatch}, payload) {
 		profApi.getProfile(payload, data => {
 			// data = {username:'test', email:'test'}
-			commit(types.INIT_PROFILE, data)
+			commit(types.INIT_PROFILE, data);
 		})
 	},
 	updateinfo ({commit, dispatch}, payload) {
 		profApi.updateinfo(payload, data => {
-			if (data > 0) {
+			if (data == 1) {
 				dispatch('initProfile')
 				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！', 'msgcontenttype': 'updateinfo'})
-			} else {
+			} else if(data == 0){
 				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'修改失败！', 'msgcontenttype': 'updateinfo'})
+			}
+			else {
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'warning', 'content':'用户名已被使用，不可重复！', 'msgcontenttype': 'updateinfo'})
 			}
 		})
 	},
@@ -41,7 +44,7 @@ const actions = {
 		profApi.updatePassword(payload, data => {
 			if (data == 1) {
 				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！', 'msgcontenttype': 'updatepwd'});
-			} else if (data == -1) {
+			} else if (data == 0) {
 				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'密码错误！', 'msgcontenttype': 'updatepwd'})
 			} else {
 				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'修改失败！',  'msgcontenttype': 'updatepwd'})

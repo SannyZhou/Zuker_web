@@ -95,14 +95,13 @@ export default {
 						message: '加载失败！',
 						type: 'error'
 					});
+					this.showeditprofile = false;
 					return;
 				}
-				if (this.$store.state.msgtype === 'success'){
-					console.log(this.$store.state.profile);
-					this.profileForm.username = this.$store.state.profile.username;
-					this.profileForm.email = this.$store.state.profile.email;
-					this.showeditprofile = false;
-				}
+				console.log(this.$store.state.profile);
+				this.profileForm.username = this.$store.state.profile.username;
+				this.profileForm.email = this.$store.state.profile.email;
+				this.showeditprofile = false;
 			}, 500)
 		},
 		// updatePwd (){
@@ -147,13 +146,17 @@ export default {
 	},
 	created () {
 		this.$store.dispatch('initProfile');
-		this.profileForm.username = this.$store.state.profile.username;
-		this.profileForm.email = this.$store.state.profile.email;
+		setTimeout(()=>{
+			this.profileForm.username = this.$store.state.profile.username;
+			this.profileForm.email = this.$store.state.profile.email;
+		}, 500)
 	},
 	activated () {
 		this.$store.dispatch('initProfile');
-		this.profileForm.username = this.$store.state.profile.username;
-		this.profileForm.email = this.$store.state.profile.email;
+		setTimeout(()=>{
+			this.profileForm.username = this.$store.state.profile.username;
+			this.profileForm.email = this.$store.state.profile.email;
+		}, 300)
 	}
 }
 </script>
