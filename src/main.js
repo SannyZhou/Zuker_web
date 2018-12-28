@@ -6,7 +6,10 @@ import VueRouter from 'vue-router'
 import Routers from './router'
 import axios from 'axios'
 import store from './store'
+import Datatable from 'vue2-datatable-component'
 
+
+Vue.use(Datatable)
 Vue.use(VueRouter)
 Vue.use(ElementUI)
 Vue.config.devtools = true;
