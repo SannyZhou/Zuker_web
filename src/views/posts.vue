@@ -1,4 +1,5 @@
 <template>
+    <el-main>
     <el-table
             :data="tableData"
             style="width: 100%"
@@ -85,6 +86,8 @@
           </template>
         </el-table-column>
     </el-table>
+    <el-button @click="toForm" type="primary" style="margin: 5px">新发布</el-button>
+    </el-main>
   </template>
   
   <style>
@@ -188,7 +191,9 @@
                   obj.$message.error('载入失败');
               })
             },
-  
+            toForm() {
+                this.$router.push('/form')
+            }
         }
   
     }

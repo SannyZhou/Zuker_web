@@ -30,7 +30,7 @@
         </el-row>
         <hr>
         <el-input type="textarea" placeholder="请输入内容" v-model="text"></el-input>
-        <el-button @click="sendMessage">发送</el-button>
+        <el-button type="primary" @click="sendMessage">发送</el-button>
     </el-dialog>
 </template>
 
