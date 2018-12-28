@@ -16,8 +16,12 @@ export default {
                 type: 'success',
                 message: 'We\'ve laid the ground work for you. It\'s time for you to build something epic!',
                 duration: 5000
-            })
-            this.$axios.get("/api/test").then(function(res) {
+            });
+            let data = {
+                user_id: '-5398793911749115081',
+                content: 'abd'
+            }
+            this.$axios.post("/api/usercenter/messages", data).then(function(res) {
                 console.log(res.data)
             }).catch(function(err) {
                 console.log(err.response)
