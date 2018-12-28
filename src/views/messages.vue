@@ -12,14 +12,11 @@
     .message-info {
         color: darkgray;
     }
-    .message-card {
-        margin: 8px;;
-    }
 </style>
 
 <template>
     <el-main class="content">
-        <el-card class="message-card" v-for="(dialog, index) in dialogs" :key="dialog.user_id">
+        <el-card v-for="(dialog, index) in dialogs" :key="dialog.user_id">
             <div slot="header">
                 <span>{{dialog.username}}</span>
                 <el-button style="float: right" type="text" @click="viewDialog(index)">查看</el-button>
@@ -52,7 +49,30 @@ export default {
         return {
             dialog_show: false,
             dialog_sel: {},
-            dialogs: []
+            dialogs: [
+                {
+                    username: "xiao ming",
+                    user_id: 1,
+                    messages: [
+                        {
+                            sender_id: 1,
+                            receiver_id: 2,
+                            sender_name: "xiao ming",    // equal to the username above
+                            receiver_name: "xiao hua",
+                            content: "hahaha, this is a test",
+                            send_time: "2018/12/06 00:00:00"
+                        },
+                        {
+                            sender_id: 2,
+                            receiver_id: 1,
+                            sender_name: "xiao hua",
+                            receiver_name: "xiao ming",
+                            content: "ohohoh, the test is received\naaaaaaa sdkfjekfjk",
+                            send_time: "2018/12/06 00:00:01"
+                        }
+                    ]
+                }
+            ]
         }
     },
     methods: {
