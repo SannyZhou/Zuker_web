@@ -172,12 +172,12 @@
             },
   
             delClick(index){
-              this.tableData.splice(index, 1);
   
               //发送要删除的序号
               var obj = this;
-              this.$axios.post('/api/usercenter/housing/edit/', index).then(function(res) {
+              this.$axios.delete('/api/usercenter/housing/' + this.tableData[index].id, index).then(function(res) {
                   obj.$message.success('删除成功');
+                  obj.tableData.splice(index, 1);
               }).catch(function(err) {
                   obj.$message.error('删除失败');
               })

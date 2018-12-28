@@ -169,11 +169,11 @@
           },
 
           delClick(index){
-            this.tableData.splice(index, 1);
 
             //发送要删除的序号
             var obj = this;
-            this.$axios.get('/api/usercenter/favorite/remove/', index).then(function(res) {
+            this.$axios.delete('/api/usercenter/favorite/' + this.tableData[index].id, index).then(function(res) {
+                obj.tableData.splice(index, 1);
                 obj.$message.success('删除成功');
             }).catch(function(err) {
                 obj.$message.error('删除失败');
