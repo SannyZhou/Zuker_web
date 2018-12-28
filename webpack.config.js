@@ -55,7 +55,7 @@ module.exports = (options = {}) => ({
     extensions: ['.js', '.vue', '.json', '.css']
   },
   devServer: {
-    host: '192.168.88.135',
+    host: '0.0.0.0',
     port: 8010,
     proxy: {
       '/api/': {
@@ -66,6 +66,7 @@ module.exports = (options = {}) => ({
         }
       }
     },
+    disableHostCheck: false,
     historyApiFallback: {
       index: url.parse(options.dev ? '/assets/' : publicPath).pathname
     }
