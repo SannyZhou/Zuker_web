@@ -57,6 +57,7 @@ module.exports = (options = {}) => ({
   devServer: {
     host: '0.0.0.0',
     port: 8010,
+    disableHostCheck: true,
     proxy: {
       '/api/': {
         target: 'http://127.0.0.1:8080',
@@ -66,7 +67,6 @@ module.exports = (options = {}) => ({
         }
       }
     },
-    disableHostCheck: false,
     historyApiFallback: {
       index: url.parse(options.dev ? '/assets/' : publicPath).pathname
     }
