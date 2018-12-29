@@ -22,18 +22,19 @@
                     <!-- el-upload 中的action参数为处理图片上传的后端接口 -->
                     <el-upload 
                         ref="upload"
-                        action="/upload" 
                         name="picture"
+                        action="/api/housing"
                         list-type="picture-card"
                         :file-list="fileList"
                         :before-upload="beforeUpload"
                         :on-preview="handlePreview"
-                        :on-success="handleSuccess"
-                        :on-remove="handleRemove">
+                        :on-remove="handleRemove"
+                        :on-change="fileChange"
+                    >
                         <i class="el-icon-plus"></i>
                     </el-upload>
                     <el-dialog :visible.sync="dialogVisible">
-                        <img width="100%" :src="House.imageUrl" alt="">
+                        <img width="100%" :src="House.imageBase64" alt="">
                     </el-dialog>
                 </el-form-item>
                 <el-form-item label="联系电话：" prop="phoneNumber">
@@ -107,7 +108,10 @@
     export default {
         data () {
             return {
+                customImageMaxSize: 3,
+                fileReader: '',
                 fileList: [],
+                file: '',
                 House: {
                     name: '',
                     description: '',
@@ -123,7 +127,8 @@
                     hall: '',
                     room: '',
                     bath: '',
-                    imageUrl: '', 
+                    imageBase64: [],
+                    imageFileName: [], 
                     others: [],
                 },
                 dialogVisible: false,
@@ -255,14 +260,37 @@
             };
         },
     methods: {
-        handleRemove(file, fileList) {
-            this.$message({
-                type: 'info',
-                message: '已删除原有图片',
-                duration: 6000
-            });
+         
+        fileChange(file, fileList) {
+            
+            if ( file ) {
+            var fileReader = new FileReader ();
+            
+            fileReader.readAsDataURL(file.raw)
+            fileReader.onload = (fileEvent) => {
+                var base64str = ''
+                var filename = '' 
+                base64str = fileEvent.target.result
+                filename = file.name
+                this.House.imageBase64.push(base64str)
+                this.House.imageFileName.push(filename)
+            //console.log(fileEvent.target.result);//fileEvent.target.result就是base64路径，上传时当字符串传就行了。
+            //console.log(base64str)
+            //console.log(this.House.imageBase64)
+            //console.log(this.House.imageFileName)
+            };
+            }
+    
         },
+        handleRemove(file, fileList) {
+            let index = this.fileList.indexOf(file)
+            this.fileList.splice(index, 1)
+            this.House.imageBase64.splice(index, 1)
+            this.House.imageFileName.splice(index, 1)
+        },
+
         handlePreview(file) {
+                console.log(file.url)
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
@@ -280,20 +308,7 @@
                 this.$message.error('上传图片大小不能超过 2MB!');
             }
             return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
-        }, 
-        handleSuccess(res, file) {
-            this.$message({
-                type: 'info',
-                message: '图片上传成功',
-                duration: 6000
-            });
-            if (file.response.success) {
-                this.editor.picture = file.response.message; //将返回的文件储存路径赋值picture字段
-                this.house.imageUrl.append(file.response.message)
-            } else {
-                this.$message.warning("图片上传失败！")
-            }
-        },    
+        },  
         submit (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
@@ -313,42 +328,30 @@
                         hall: this.House.hall,
                         room: this.House.room,
                         bath: this.House.bath,
-                        imageFile: this.House.imageFile,
+                        imageBase64: this.House.imageBase64,
+                        imageFileName: this.House.imageFileName,
                         others: this.House.others,
                     }
-                    this.$axios.post('/api/house', house).then(function(res) {
+                    
+                    this.$axios.post('/api/housing', house).then(function(res) {
+                        console.log(res)
                         this.$message.success("房源已发布！")
+                        this.$router.replace({path: '/my/posts'})
             	    
                 }).catch(function(err){
             	    this.$message.error("房源发布失败");
             	})}
                 else {
-                alers('信息有误，请按提示重新填写！')
-                /* console.log('Error');*/
-                /*
-                console.log(this.House.availableTime_start);
-                console.log(this.House.availableTime_end);
-                console.log(this.House.acreage);
-                console.log(this.House.decoration);
-                console.log(this.House.type);
-                console.log(this.House.method);
-                console.log(this.House.hall);
-                console.log(this.House.room);
-                console.log(this.House.bath);
-                console.log(this.House.imageFile);
-                console.log(this.House.others);*/
-                
+                alert('信息有误，请按提示重新填写！')  
           }
         });
             },
       resetForm(formName) {
         this.$refs[formName].resetFields();
-      },
-      uploadImageMethod() {
-
       }
     }
-}
+    }
+
 </script>
 
 <style lang="stylus" rel="stylesheet/styl" scoped>
