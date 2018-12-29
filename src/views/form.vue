@@ -332,17 +332,28 @@
                         imageFileName: this.House.imageFileName,
                         others: this.House.others,
                     }
-                    
-                    this.$axios.post('/api/housing', house).then(function(res) {
-                        console.log(res)
+                    this.$axios.post('/api/usercenter/housing', house).then((res) => {
                         this.$message.success("房源已发布！")
-                        this.$router.replace({path: '/my/posts'})
-            	    
-                }).catch(function(err){
-            	    this.$message.error("房源发布失败");
-            	})}
+                        this.$router.push('/my/posts')
+                    }).catch(function(err){
+                        this.$message.error("房源发布失败");
+            	    })}
                 else {
-                alert('信息有误，请按提示重新填写！')  
+                    alert('信息有误，请按提示重新填写！')
+                    /* console.log('Error');*/
+                    /*
+                    console.log(this.House.availableTime_start);
+                    console.log(this.House.availableTime_end);
+                    console.log(this.House.acreage);
+                    console.log(this.House.decoration);
+                    console.log(this.House.type);
+                    console.log(this.House.method);
+                    console.log(this.House.hall);
+                    console.log(this.House.room);
+                    console.log(this.House.bath);
+                    console.log(this.House.imageFile);
+                    console.log(this.House.others);*/
+                
           }
         });
             },

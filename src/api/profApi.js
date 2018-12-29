@@ -1,47 +1,45 @@
 import axios from 'axios'
-import { platform } from 'os';
 export default {
 	getProfile(payload, cb) {
-		// let url = 'http://localhost:8080/zuker/profile/getprofile'
-		// axios.get(url, {
-		// 	data: payload,
-		// 	withCredentials: true
-		// }).then((response) => cb(response.data))
+		let url = '/api/usercenter/getprofile'
+		axios({
+			url: url,
+			method: 'get',
+			headers: {
+				'Content-Type': 'application/json; charset=utf-8'
+			},
+		}).then((response) => cb(response.data))
 	},
 	updateinfo (payload, cb){
-		let url = 'http://localhost:8080/zuker/profile/update/username'
+		let url = '/api/usercenter/update'
 		axios({
 			url: url,
 			method: 'post',
 			data: {
-				user_id: payload.user_id,
-				username: payload.username,
-				email: payload.email
+				new_username: payload.username,
+				new_email: payload.email
 			},
 			headers: {
 				'Content-Type': 'application/json; charset=utf-8'
 			},
-			withCredentials: true
 		}).then((response) => cb(response.data))
 	},
 	updatePassword (payload, cb){
-		let url = 'http://localhost:8080/zuker/profile/update/password'
+		let url = '/api/user/update/password'
 		axios({
 			url: url,
 			method: 'post',
 			data: {
-				user_id: payload.user_id,
-				old_password: payload.oldpassword,
-				new_password: payload.newpassword
+				origin_pwd: payload.origin_pwd,
+				new_pwd: payload.new_pwd
 			},
 			headers: {
 				'Content-Type': 'application/json; charset=utf-8'
-			},
-			withCredentials: true
+			}
 		}).then((response) => cb(response.data))
 	},
 	updateImage (payload, cb){
-		let url = 'http://localhost:8080/zuker/profile/update/image'
+		let url = '/api/profile/update/image'
 		let formed = new FormData();
 		formed.append('file', payload.img_f, payload.img_f.name)
 		axios({
@@ -51,7 +49,6 @@ export default {
 			headers: {
 				'Content-Type': 'multipart/form-data; charset=utf-8'
 			},
-			withCredentials: true
 		}).then((response) => cb(response.data))
 	},
 	// add_img(event){  

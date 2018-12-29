@@ -1,4 +1,5 @@
 <template>
+    <el-main>
     <el-table
             :data="tableData"
             style="width: 100%"
@@ -85,6 +86,8 @@
           </template>
         </el-table-column>
     </el-table>
+    <el-button @click="toForm" type="primary" style="margin: 5px">新发布</el-button>
+    </el-main>
   </template>
   
   <style>
@@ -169,26 +172,28 @@
             },
   
             delClick(index){
-              this.tableData.splice(index, 1);
   
               //发送要删除的序号
               var obj = this;
-              this.$axios.post('/api/posts', index).then(function(res) {
+              this.$axios.delete('/api/usercenter/housing/' + this.tableData[index].id, index).then(function(res) {
                   obj.$message.success('删除成功');
+                  obj.tableData.splice(index, 1);
               }).catch(function(err) {
                   obj.$message.error('删除失败');
               })
             },
             getPosts() {
               var obj = this;
-              this.$axios.get('/api/posts').then(function(res) {
+              this.$axios.get('/api/usercenter/housing/view').then(function(res) {
                   obj.tableData = res.data;
                   obj.$message.success('载入成功');
               }).catch(function(err) {
                   obj.$message.error('载入失败');
               })
             },
-  
+            toForm() {
+                this.$router.push('/form')
+            }
         }
   
     }

@@ -30,7 +30,7 @@
         </el-row>
         <hr>
         <el-input type="textarea" placeholder="请输入内容" v-model="text"></el-input>
-        <el-button @click="sendMessage">发送</el-button>
+        <el-button type="primary" @click="sendMessage">发送</el-button>
     </el-dialog>
 </template>
 
@@ -57,7 +57,7 @@ export default {
                 content: this.text
             }
             var obj = this;
-            this.$axios.post('/api/messages', data).then(function(res) {
+            this.$axios.post('/api/usercenter/messages', data).then(function(res) {
                 obj.$message.success('发送成功');
                 obj.text = '';
                 obj.$emit('send-message');

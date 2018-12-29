@@ -1,38 +1,32 @@
 import * as types from '../mutation-types'
 import profApi from '../../api/profApi'
 import router from '../../router'
+import Axios from 'axios'
 
 const state = {
-	profile: {
-		type: Object
-	},
+	
 }
 
 const getters = {
-	profile: state => state.profile,
 }
 
 const actions = {
 	initProfile({commit, dispatch}, payload) {
 		profApi.getProfile(payload, data => {
-			commit(types.INIT_PROFILE, {data})
-			if (data.profId === 0) {
-				router.replace({
-					path: '/login',
-					query: {redirect: router.currentRoute.fullPath}
-				})
-			} else {
-				router.replace({name: 'profile'})
-			}
+			// data = {username:'test', email:'test'}
+			commit(types.INIT_PROFILE, data);
 		})
 	},
 	updateinfo ({commit, dispatch}, payload) {
-		profApi.updateUsername(payload, data => {
-			if (data.profId > 0) {
+		profApi.updateinfo(payload, data => {
+			if (data == 1) {
 				dispatch('initProfile')
-				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！'})
-			} else {
-				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'修改失败！'})
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！', 'msgcontenttype': 'updateinfo'})
+			} else if(data == 0){
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'修改失败！', 'msgcontenttype': 'updateinfo'})
+			}
+			else {
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'warning', 'content':'用户名已被使用，不可重复！', 'msgcontenttype': 'updateinfo'})
 			}
 		})
 	},
@@ -46,18 +40,14 @@ const actions = {
 	// 		}
 	// 	})
 	// },
-	updatePassword ({commit, dispatch}, payload) {
+	updatepwd ({commit, dispatch}, payload) {
 		profApi.updatePassword(payload, data => {
 			if (data == 1) {
-				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！'});
-				router.replace({
-					path: '/login',
-					query: {redirect: router.currentRoute.fullPath}
-				})
-			} else if (data == -1) {
-				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'密码错误！'})
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'success', 'content':'修改成功！', 'msgcontenttype': 'updatepwd'});
+			} else if (data == 0) {
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'密码错误！', 'msgcontenttype': 'updatepwd'})
 			} else {
-				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'修改失败！'})
+				commit(types.SHOW_TOP_POPUP, {'msgtype': 'error', 'content':'修改失败！',  'msgcontenttype': 'updatepwd'})
 			}
 		})
 	},
@@ -74,12 +64,7 @@ const actions = {
 }
 
 const mutations = {
-	[types.INIT_PROFILE](state, {data}) {
-		state.profile = data
-	},
-	resetProfile (state) {
-		state.profile = {}
-	},
+	
 }
 
 export default {
