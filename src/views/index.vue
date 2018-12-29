@@ -15,7 +15,6 @@ import mockData from '../_mockData'
 import components from './comps/'
 
 export default {
-<<<<<<< HEAD
   components,
   name: 'FriendsTable', // `name` is required as a recursive component
   props: ['row'], // from the parent FriendsTable (if exists)
@@ -46,25 +45,6 @@ export default {
           Normal: ['Email', 'Username', 'Country', 'IP'],
           Sortable: ['UID', 'Age', 'Create time'],
           Extra: ['Operation', 'Color', 'Language', 'PL']
-=======
-    methods: {
-        startHacking () {
-            this.$notify({
-                title: 'It works!',
-                type: 'success',
-                message: 'We\'ve laid the ground work for you. It\'s time for you to build something epic!',
-                duration: 5000
-            });
-            let data = {
-                user_id: '-5398793911749115081',
-                content: 'abd'
-            }
-            this.$axios.post("/api/usercenter/messages", data).then(function(res) {
-                console.log(res.data)
-            }).catch(function(err) {
-                console.log(err.response)
-            })
->>>>>>> fc89fcb5e4bd3e09cbb1c9d47e63609b85f911cc
         }
         return cols.map(col => {
           Object.keys(groupsDef).forEach(groupName => {

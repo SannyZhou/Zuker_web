@@ -51,8 +51,10 @@
                     <el-form-item label="几卫">
                       <span>{{ props.row.bath }}</span>
                     </el-form-item>
-                    <el-form-item label="图片链接">
-                      <span>{{ props.row.imageUrl }}</span>
+                    <el-form-item label="图片">
+                      <span>
+                          <img v-for="(image, index) in props.row.images" :key="index" :src="image" height="180" width="200">
+                      </span>
                     </el-form-item>
                     <el-form-item label="其他">
                       <span>{{ props.row.others }}</span>

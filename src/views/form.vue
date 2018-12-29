@@ -30,6 +30,7 @@
                         :on-preview="handlePreview"
                         :on-remove="handleRemove"
                         :on-change="fileChange"
+                        :auto-upload="false"
                     >
                         <i class="el-icon-plus"></i>
                     </el-upload>
@@ -308,7 +309,7 @@
                 this.$message.error('上传图片大小不能超过 2MB!');
             }
             return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
-        },  
+        },
         submit (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {

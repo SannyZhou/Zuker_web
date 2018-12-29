@@ -46,5 +46,9 @@
     "vue-template-compiler": "^2.5.16",
     "webpack": "^2.7.0",
     "webpack-dev-server": "^2.4.2"
-  }
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ier005/Zuker_web.git",
+  "license": "MIT"
 }
